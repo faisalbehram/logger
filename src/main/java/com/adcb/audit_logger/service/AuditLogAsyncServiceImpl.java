@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 
 @Service
-public class AuditLogAsyncServiceImpl implements AuditLogAsyncService {
+class AuditLogAsyncServiceImpl implements AuditLogAsyncService {
 
 
     private final AuditLogRepository repository;
