@@ -1,6 +1,6 @@
-package com.adcb.audit_logger.repository;
+package org.adcb.uoj.logger.repository;
 
-import com.adcb.audit_logger.entity.AuditLog;
+import org.adcb.uoj.logger.entity.AuditLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

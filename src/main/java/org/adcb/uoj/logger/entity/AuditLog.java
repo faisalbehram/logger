@@ -1,4 +1,4 @@
-package com.adcb.audit_logger.entity;
+package org.adcb.uoj.logger.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

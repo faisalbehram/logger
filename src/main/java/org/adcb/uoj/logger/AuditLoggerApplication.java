@@ -1,4 +1,4 @@
-package com.adcb.audit_logger;
+package org.adcb.uoj.logger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

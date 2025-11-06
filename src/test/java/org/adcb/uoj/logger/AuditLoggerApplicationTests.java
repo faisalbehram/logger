@@ -1,4 +1,4 @@
-package com.adcb.audit_logger;
+package org.adcb.uoj.logger;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

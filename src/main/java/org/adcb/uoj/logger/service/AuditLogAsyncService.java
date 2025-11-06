@@ -1,4 +1,4 @@
-package com.adcb.audit_logger.service;
+package org.adcb.uoj.logger.service;
 
 
 public interface AuditLogAsyncService {

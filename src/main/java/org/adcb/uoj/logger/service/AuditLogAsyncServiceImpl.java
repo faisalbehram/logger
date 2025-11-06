@@ -1,8 +1,8 @@
-package com.adcb.audit_logger.service;
+package org.adcb.uoj.logger.service;
 
 
-import com.adcb.audit_logger.entity.AuditLog;
-import com.adcb.audit_logger.repository.AuditLogRepository;
+import org.adcb.uoj.logger.entity.AuditLog;
+import org.adcb.uoj.logger.repository.AuditLogRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
