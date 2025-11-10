@@ -2,7 +2,10 @@ package org.adcb.uoj.logger.service;
 
 
 import org.adcb.uoj.logger.entity.AuditLog;
-import org.adcb.uoj.logger.repository.AuditLogRepository;
+import org.adcb.uoj.logger.entity.ExceptionLog;
+import org.adcb.uoj.logger.strategy.AuditStorageStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -10,22 +13,21 @@ import java.time.Instant;
 
 @Service
 class AuditLogAsyncServiceImpl implements AuditLogAsyncService {
+    private static final Logger logger = LoggerFactory.getLogger(AuditLogAsyncServiceImpl.class);
 
+    private final AuditStorageStrategy storageStrategy;
 
-    private final AuditLogRepository repository;
-
-    public AuditLogAsyncServiceImpl (AuditLogRepository repository){
-        this.repository=repository;
+    public AuditLogAsyncServiceImpl(AuditStorageStrategy storageStrategy) {
+        this.storageStrategy = storageStrategy;
     }
-
     @Async
     @Override
     public void saveAudit(String uri, String requestData, String responseData, int status, String header, String pathVariable, String methodType) {
         AuditLog log = new AuditLog();
         log.setCreatedAt(Instant.now());
         try {
-            log.setEndPoint(methodType);
-            log.setMethodType(uri); // optional helper
+            log.setEndPoint(uri);
+            log.setMethodType(methodType); // optional helper
             log.setRequestData(requestData);
             log.setResponseData(responseData);
             log.setStatus(status);
@@ -34,13 +36,28 @@ class AuditLogAsyncServiceImpl implements AuditLogAsyncService {
             if(responseData != null){
                 log.setResponseTimestamp(Instant.now());
             }
-            repository.save(log);
-
+            storageStrategy.save(log);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Audit log failed: " + e.getMessage());
+            logger.info(e.getMessage());
             log.setExceptionData(e.toString());
-            repository.save(log);
+            storageStrategy.save(log);
+
+        }
+    }
+
+    @Override
+    public void saveExceptionLog(String uri, String exceptionData, int status) {
+        ExceptionLog log = new ExceptionLog();
+        log.setCreatedAt(Instant.now());
+        try {
+            log.setEndPoint(uri);
+            log.setExceptionData(exceptionData);
+            log.setStatus(status);
+
+            storageStrategy.save(log);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            storageStrategy.save(log);
 
         }
     }
